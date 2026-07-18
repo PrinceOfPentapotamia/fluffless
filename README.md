@@ -20,7 +20,7 @@ Fluffless is an AI-powered brutalist web application designed to instantly debun
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/fluffless.git
+   git clone https://github.com/PrinceOfPentapotamia/fluffless.git
    cd fluffless
    ```
 
