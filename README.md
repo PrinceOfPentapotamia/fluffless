@@ -55,3 +55,6 @@ This application includes monkey-patches for `requests` and `httpx` to bypass SS
 
 ## 📝 License
 MIT License
+
+## 🔒 Privacy Policy
+Please read our [Privacy Policy](PRIVACY_POLICY.md) to understand how data is handled in this local-first application.
