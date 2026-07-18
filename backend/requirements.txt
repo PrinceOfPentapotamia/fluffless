@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+langchain
+langchain-google-genai
+chromadb
+youtube-transcript-api
+python-dotenv
+langchain-huggingface
+sentence-transformers
