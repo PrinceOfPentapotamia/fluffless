@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fluffless</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="icon.png" alt="Logo" id="logo">
+            <div style="display: flex; flex-direction: column;">
+                <h1>FLUFFLESS</h1>
+                <p style="margin: 0; font-size: 0.7rem; color: #888;">Summarize videos & debunk clickbait</p>
+            </div>
+        </header>
+
+        <main>
+            <p id="status-text">Click to summarize this video.</p>
+            <button id="debunk-btn">SUMMARIZE NOW</button>
+            
+            <div id="loading" class="hidden">
+                <div class="progress"></div>
+                <p>PROCESSING...</p>
+            </div>
+
+            <div id="result" class="hidden">
+                <h2 id="video-title"></h2>
+                <div class="debunk-box">
+                    <p id="debunk-text"></p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
