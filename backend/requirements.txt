@@ -1,6 +1,8 @@
 fastapi
 uvicorn
 langchain
+langchain-text-splitters
+langchain-chroma
 langchain-google-genai
 chromadb
 youtube-transcript-api
