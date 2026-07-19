@@ -1,8 +1,7 @@
 import os
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
@@ -23,8 +22,8 @@ def process_transcript_to_qa_chain(transcript: str, api_key: str):
     )
     texts = text_splitter.split_text(transcript)
     
-    # 2. Initialize HuggingFace Open Source Embeddings (Runs locally)
-    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    # 2. Initialize Gemini Embeddings (Runs on Google API, 0 memory cost)
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
     
     # 3. Create In-Memory Vector Store
     vectorstore = Chroma.from_texts(texts, embeddings)
