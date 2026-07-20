@@ -23,7 +23,7 @@ def process_transcript_to_qa_chain(transcript: str, api_key: str):
     texts = text_splitter.split_text(transcript)
     
     # 2. Initialize Gemini Embeddings (Runs on Google API, 0 memory cost)
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-2")
     
     # 3. Create In-Memory Vector Store
     vectorstore = Chroma.from_texts(texts, embeddings)
