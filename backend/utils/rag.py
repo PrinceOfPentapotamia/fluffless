@@ -14,12 +14,13 @@ class ContextStuffingQAChain:
         self.system_prompt = f"You are a helpful assistant. Answer the user's questions based ONLY on the following YouTube video transcript. If the answer is not in the transcript, say 'I cannot find the answer in the video.'\n\nTRANSCRIPT:\n{transcript}"
 
     def invoke(self, question: str) -> str:
+        from langchain_core.output_parsers import StrOutputParser
         messages = [
             SystemMessage(content=self.system_prompt),
             HumanMessage(content=question)
         ]
-        response = self.llm.invoke(messages)
-        return response.content
+        chain = self.llm | StrOutputParser()
+        return chain.invoke(messages)
 
 def process_transcript_to_qa_chain(transcript: str, api_key: str):
     """

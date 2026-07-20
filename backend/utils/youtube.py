@@ -12,18 +12,19 @@ def extract_video_id(url: str) -> str:
 
 def get_video_title(url: str) -> str:
     """
-    Fetches the video title from a YouTube URL.
+    Fetches the video title from a YouTube URL using the official oEmbed API.
     """
     try:
         import requests
-        r = requests.get(url, verify=False)
-        match = re.search(r'<title>(.*?)</title>', r.text)
-        if match:
-            title = match.group(1)
-            # Clean up suffix
-            if title.endswith(" - YouTube"):
-                title = title[:-10]
-            return title
+        video_id = extract_video_id(url)
+        if not video_id:
+            return "Unknown Video Title"
+            
+        oembed_url = f"https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={video_id}&format=json"
+        r = requests.get(oembed_url, verify=False, timeout=5)
+        
+        if r.status_code == 200:
+            return r.json().get("title", "Unknown Video Title")
         return "Unknown Video Title"
     except Exception:
         return "Unknown Video Title"
