@@ -1,6 +1,4 @@
 import re
-from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api._errors import TranscriptsDisabled, NoTranscriptFound
 
 def extract_video_id(url: str) -> str:
     """
@@ -32,26 +30,38 @@ def get_video_title(url: str) -> str:
 
 def get_transcript(video_id: str) -> str:
     """
-    Fetches the transcript for a given video ID and returns it as a single string.
+    Fetches the transcript for a given video ID using RapidAPI to bypass cloud IP bans.
     """
     try:
         import requests
         import urllib3
+        import os
+        import html
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         
-        session = requests.Session()
-        session.verify = False
+        rapidapi_key = os.environ.get("RAPIDAPI_KEY")
+        if not rapidapi_key:
+            raise Exception("RAPIDAPI_KEY environment variable is not set. Please add it to your Render dashboard.")
+
+        url = "https://youtube-transcript3.p.rapidapi.com/api/transcript"
+        querystring = {"videoId": video_id}
+        headers = {
+            "X-RapidAPI-Key": rapidapi_key,
+            "X-RapidAPI-Host": "youtube-transcript3.p.rapidapi.com"
+        }
         
-        transcript_list = YouTubeTranscriptApi(http_client=session).fetch(video_id)
-        # transcript_list is a list of FetchedTranscriptSnippet objects
-        text_parts = [part.text for part in transcript_list]
-        full_text = " ".join(text_parts)
-        # Clean up some common issues in auto-generated text
-        full_text = full_text.replace('\n', ' ')
+        response = requests.get(url, headers=headers, params=querystring, verify=False)
+        data = response.json()
+        
+        if not data.get("success"):
+            error_msg = data.get("error", "Unknown API error")
+            raise Exception(f"RapidAPI Error: {error_msg}")
+            
+        transcript_list = data.get("transcript", [])
+        text_parts = [html.unescape(part.get("text", "")) for part in transcript_list]
+        full_text = " ".join(text_parts).replace('\n', ' ')
+        
         return full_text
-    except TranscriptsDisabled:
-        raise Exception("The creator has disabled transcripts for this video.")
-    except NoTranscriptFound:
-        raise Exception("YouTube could not auto-generate a transcript for this video.")
+        
     except Exception as e:
         raise Exception(f"An error occurred while fetching the transcript: {str(e)}")
