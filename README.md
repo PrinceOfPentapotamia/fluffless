@@ -7,7 +7,7 @@ Fluffless is an AI-powered brutalist web application designed to instantly debun
 ## 🚀 Features
 - **Instant Auto-Debunk:** Automatically cuts through clickbait and answers the core question of the video title.
 - **RAG Chat Interface:** Ask follow-up questions about the video's content.
-- **Vector Memory**: Uses ChromaDB to slice and store the YouTube transcript for intelligent, context-aware querying.
+- **Context Stuffing**: Bypasses rate limits and memory issues by stuffing the entire video transcript directly into Gemini 1.5's massive 1M token context window for highly accurate, holistic summaries.
 - **Brutalist UI:** A custom-built, striking, high-contrast user interface.
 
 ## 🛠️ Tech Stack
