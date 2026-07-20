@@ -59,8 +59,15 @@ def get_transcript(video_id: str) -> str:
             raise Exception(f"RapidAPI Error: {error_msg}")
             
         transcript_list = data.get("transcript", [])
-        text_parts = [html.unescape(part.get("text", "")) for part in transcript_list]
-        full_text = " ".join(text_parts).replace('\n', ' ')
+        
+        if not transcript_list:
+            raise Exception("No captions found for this video. This tool requires videos with closed captions enabled.")
+            
+        text_parts = [html.unescape(str(part.get("text", ""))) for part in transcript_list if isinstance(part, dict)]
+        full_text = " ".join(text_parts).replace('\n', ' ').strip()
+        
+        if not full_text:
+            raise Exception("No captions found for this video. This tool requires videos with closed captions enabled.")
         
         return full_text
         
